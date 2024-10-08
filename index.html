@@ -36,10 +36,18 @@
     </div>
     <script>
         const telegram = window.Telegram.WebApp;
+        const userId = telegram.initDataUnsafe.user.id;  // Получаем ID пользователя
 
-        document.getElementById('agreeBtn').onclick = () => {
+        document.getElementById('agreeBtn').onclick = async () => {
             document.getElementById('terms').style.display = 'none';
             document.getElementById('goals').style.display = 'block';
+
+            // Добавляем пользователя в базу данных
+            await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, username: telegram.initDataUnsafe.user.username })
+            });
         };
 
         document.getElementById('disagreeBtn').onclick = () => {
@@ -47,9 +55,17 @@
         };
 
         document.querySelectorAll('.goalBtn').forEach(button => {
-            button.onclick = () => {
+            button.onclick = async () => {
                 const selectedGoal = button.getAttribute('data-goal');
                 telegram.sendData(`selected_goal:${selectedGoal}`);
+
+                // Обновляем цель пользователя в базе данных
+                await fetch(`/api/users/${userId}/goal`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ goal: selectedGoal })
+                });
+
                 alert(`Вы выбрали цель: ${selectedGoal}`);
             };
         });
