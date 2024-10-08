@@ -1,59 +1,63 @@
 const telegram = window.Telegram.WebApp;
 
-// Получаем информацию о пользователе
-const userId = telegram.initDataUnsafe.user.id;
-document.getElementById('user-id').innerText = userId;
+function accept() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('registration').style.display = 'block';
+}
 
-// Отображаем приветственное сообщение
-document.getElementById('welcome-message').innerText = `Добро пожаловать, пользователь ${userId}!`;
-document.getElementById('user-info').style.display = 'block';
+function decline() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('goodbye').style.display = 'block';
+}
 
-// Внесение депозита
-document.getElementById('deposit-button').onclick = () => {
-    const depositAmount = document.getElementById('deposit-input').value;
-    if (depositAmount) {
-        fetch('/add_deposit', {
+function register() {
+    const name = document.getElementById('name').value;
+    const city = document.getElementById('city').value;
+    const age = document.getElementById('age').value;
+
+    if (name && city && age) {
+        // Отправка данных на сервер для сохранения в базе данных
+        // Например, через fetch:
+        fetch('/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                user_id: userId,
-                deposit: depositAmount,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-        })
-        .catch((error) => {
-            console.error('Ошибка:', error);
+            body: JSON.stringify({ name, city, age }),
+        }).then(() => {
+            document.getElementById('registration').style.display = 'none';
+            document.getElementById('goalSelection').style.display = 'block';
         });
-    } else {
-        alert('Пожалуйста, введите сумму депозита.');
     }
-};
+}
 
-// Выбор цели
-document.querySelectorAll('.goal-button').forEach(button => {
-    button.onclick = () => {
-        const selectedGoal = button.getAttribute('data-goal');
-        fetch('/select_goal', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                user_id: userId,
-                goal: selectedGoal,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-        })
-        .catch((error) => {
-            console.error('Ошибка:', error);
-        });
-    };
-});
+function selectGoal(goal) {
+    document.getElementById('goalSelection').style.display = 'none';
+    document.getElementById('finalGoalSelection').style.display = 'block';
+    document.getElementById('finalGoalTitle').innerText = `Вы выбрали: ${goal}`;
+}
+
+function finishGoalSelection(goal) {
+    // Логика для обработки выбора цели
+    document.getElementById('finalGoalSelection').style.display = 'none';
+    document.getElementById('depositPage').style.display = 'block';
+}
+
+function finishDeposit() {
+    // Логика для обработки внесения депозита
+    document.getElementById('depositPage').style.display = 'none';
+    document.getElementById('mainInterface').style.display = 'block';
+    document.getElementById('info').innerText = 'Депозит внесён. Добро пожаловать в основной интерфейс!';
+}
+
+function showProfile() {
+    // Логика для отображения профиля
+}
+
+function showQueue() {
+    // Логика для отображения очереди
+}
+
+function showPromotions() {
+    // Логика для отображения акций
+}
