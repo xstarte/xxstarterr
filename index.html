@@ -8,60 +8,84 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Вступительный текст -->
-        <div id="intro">
-            <h1>Добро пожаловать в приложение!</h1>
-            <p><!-- Вставьте текст приветствия сюда --></p>
-            <button onclick="accept()">Принять</button>
-            <button onclick="decline()">Отклонить</button>
-        </div>
+    <!-- Приветственный экран 1 -->
+    <div id="intro1" class="screen">
+        <h1>Привет :) Давай знакомиться!</h1>
+        <p>Сейчас я расскажу кратко о проекте xStart
+        Xstart создан для того, чтобы у тебя появилась возможность стать обладателем 
+        желанной вещи всего за небольшую часть ее стоимости
+        Жми кнопку Далее и расскажу еще о нас :)</p>
+        <button onclick="nextScreen('intro1', 'intro2')">Далее</button>
+    </div>
 
-        <!-- Страница "До свидания" -->
-        <div id="goodbye" style="display: none;">
-            <h1>До свидания!</h1>
-        </div>
+    <!-- Приветственный экран 2 -->
+    <div id="intro2" class="screen" style="display:none;">
+        <h1>Как это работает?</h1>
+        <p>Меxанизм действия схож с классической финансовой пирамидой... а именно: 
+        xStart приобретае тебе  то, что ты хочешь, за счет средств, накопленных при помощи других участников проекта
+        НО есть существенная разница между xStart и такого обычной пирамидой:
+        -нет обещания завышенных процентов - ты получишь именно то, что тебе нужно
+        -нет рисков разрушения проекта, тк участники лишены возиожности выхода из проекта с возвратом своего взноса
 
-        <!-- Страница авторизации -->
-        <div id="registration" style="display: none;">
-            <h2>Авторизация</h2>
-            <input type="text" id="name" placeholder="Имя" required>
-            <input type="text" id="city" placeholder="Город" required>
-            <input type="number" id="age" placeholder="Возраст" required>
-            <button id="continue" onclick="register()">Продолжить"</button>
-        </div>
+            Пока что все нравится? Жми Далее!</p>
+        <button onclick="nextScreen('intro2', 'intro3')">Далее</button>
+    </div>
 
-        <!-- Страница выбора цели -->
-        <div id="goalSelection" style="display: none;">
-            <h2>Выберите цель</h2>
-            <button onclick="selectGoal('iPhone 15')">iPhone 15</button>
-            <button onclick="selectGoal('iPhone 16')">iPhone 16</button>
-            <button onclick="selectGoal('MacBook')">MacBook</button>
-            <button onclick="selectGoal('Samsung Galaxy')">Samsung Galaxy</button>
-        </div>
+    <!-- Приветственный экран 3 -->
+    <div id="intro3" class="screen" style="display:none;">
+        <h1>Как стать участником проекта?</h1>
+        <p>1. Выбрать подходящую твоему выбору ценовую категорию;
+        2. Произвести оплату за участие в XStart;
+        3. Ты получишь номер участника в очереди для своей ценовой категории и станешь в очередь на ожидание.
+        
+        А снизу есть скучный файлик полных условий и рисков, как прочитаешь - выбор за тобой :)</p>
+        <button onclick="accept()">Принять</button>
+        <button onclick="decline()">Отклонить</button>
+    </div>
 
-        <!-- Страница финального выбора -->
-        <div id="finalGoalSelection" style="display: none;">
-            <h2 id="finalGoalTitle"></h2>
-            <button onclick="finishGoalSelection('iPhone 15')">iPhone 15</button>
-            <button onclick="finishGoalSelection('iPhone 15 Pro')">iPhone 15 Pro</button>
-            <button onclick="finishGoalSelection('iPhone 15 Pro Max')">iPhone 15 Pro Max</button>
-            <!-- Аналогично для других целей -->
-        </div>
+    <!-- Экран ввода данных пользователя -->
+    <div id="user-info" class="screen" style="display:none;">
+        <h1>Введите свои данные</h1>
+        <form id="userForm">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="city">Город:</label>
+            <input type="text" id="city" name="city" required><br><br>
+            <label for="age">Возраст:</label>
+            <input type="number" id="age" name="age" required><br><br>
+            <button type="submit" id="submitBtn">Продолжить</button>
+        </form>
+    </div>
 
-        <!-- Страница внесения депозита -->
-        <div id="depositPage" style="display: none;">
-            <h2>Внесите депозит в размере 10 000 рублей</h2>
-            <button onclick="finishDeposit()">Готово</button>
-        </div>
+    <!-- Экран выбора цели -->
+    <div id="goal-selection" class="screen" style="display:none;">
+        <h1>Выберите вашу цель</h1>
+        <button onclick="selectGoal('iPhone 15')">iPhone 15</button>
+        <button onclick="selectGoal('iPhone 16')">iPhone 16</button>
+        <button onclick="selectGoal('MacBook')">MacBook</button>
+        <button onclick="selectGoal('Samsung Galaxy')">Samsung Galaxy</button>
+    </div>
 
-        <!-- Основной интерфейс -->
-        <div id="mainInterface" style="display: none;">
-            <button onclick="showProfile()">Профиль</button>
-            <button onclick="showQueue()">Очередь</button>
-            <button onclick="showPromotions()">Акции</button>
-            <div id="info"></div>
-        </div>
+    <!-- Экран подцелей для iPhone 15 -->
+    <div id="iphone15-selection" class="screen" style="display:none;">
+        <h1>Выберите модель iPhone 15</h1>
+        <button onclick="selectGoal('iPhone 15')">iPhone 15</button>
+        <button onclick="selectGoal('iPhone 15 Pro')">iPhone 15 Pro</button>
+        <button onclick="selectGoal('iPhone 15 Pro Max')">iPhone 15 Pro Max</button>
+    </div>
+
+    <!-- Экран депозита -->
+    <div id="deposit-screen" class="screen" style="display:none;">
+        <h1>Внесите депозит 10 000 рублей</h1>
+        <button onclick="confirmDeposit()">Готово</button>
+    </div>
+
+    <!-- Основной интерфейс -->
+    <div id="main-interface" class="screen" style="display:none;">
+        <h1>Основной интерфейс</h1>
+        <div id="profile"></div>
+        <div id="queue"></div>
+        <div id="promotions">Текущие акции: <!-- Вставьте текст акций сюда --></div>
     </div>
 
     <script src="script.js"></script>
