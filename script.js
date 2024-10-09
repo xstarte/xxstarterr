@@ -1,62 +1,101 @@
-// Переход между экранами
+document.addEventListener('DOMContentLoaded', function() {
+    // Проверка, есть ли пользователь в localStorage
+    if (localStorage.getItem('userId')) {
+        showMainScreen();
+    } else {
+        showIntro1();
+    }
+
+    const continueBtn = document.getElementById('continueBtn');
+    const nameInput = document.getElementById('name');
+    const cityInput = document.getElementById('city');
+    const ageInput = document.getElementById('age');
+
+    // Включаем кнопку "Продолжить", когда все поля заполнены
+    nameInput.addEventListener('input', checkInputs);
+    cityInput.addEventListener('input', checkInputs);
+    ageInput.addEventListener('input', checkInputs);
+    
+    function checkInputs() {
+        if (nameInput.value && cityInput.value && ageInput.value) {
+            continueBtn.disabled = false;
+        } else {
+            continueBtn.disabled = true;
+        }
+    }
+});
+
+function showIntro1() {
+    document.getElementById('intro1').style.display = 'block';
+    document.getElementById('intro2').style.display = 'none';
+    document.getElementById('intro3').style.display = 'none';
+}
+
+function showMainScreen() {
+    document.getElementById('mainScreen').style.display = 'block';
+    document.getElementById('goalSelection').style.display = 'none';
+}
+
 function nextScreen(currentId, nextId) {
     document.getElementById(currentId).style.display = 'none';
     document.getElementById(nextId).style.display = 'block';
 }
 
-// Принять условия и перейти на выбор цели
 function accept() {
-    nextScreen('intro3', 'goalSelection');
+    nextScreen('intro3', 'auth');
 }
 
-// Отклонить условия
 function decline() {
     alert('До свидания!');
 }
 
-// Выбор цели
-function chooseGoal(goal) {
-    alert('Вы выбрали цель: ' + goal);
-    nextScreen('goalSelection', 'nextStep');
-}
-
-// Отключение/включение кнопки на этапе авторизации
-document.getElementById('authForm').addEventListener('input', function() {
+function submitAuth() {
     const name = document.getElementById('name').value;
     const city = document.getElementById('city').value;
     const age = document.getElementById('age').value;
 
-    const continueButton = document.getElementById('continueButton');
-    if (name && city && age) {
-        continueButton.disabled = false;
-        continueButton.classList.remove('disabled-button');
-        continueButton.classList.add('black-button');
-    } else {
-        continueButton.disabled = true;
-        continueButton.classList.remove('black-button');
-        continueButton.classList.add('disabled-button');
-    }
-});
-
-// Показ экрана профиля, очереди или акций
-function showScreen(screenId) {
-    const screens = ['profile', 'queue', 'promotions'];
-    screens.forEach(function(id) {
-        document.getElementById(id).style.display = id === screenId ? 'block' : 'none';
+    // Отправка данных на сервер
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, city, age }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        localStorage.setItem('userId', data.userId); // Сохранение ID пользователя
+        showGoalSelection();
     });
 }
 
-// Сохранение данных пользователя
-document.getElementById('authForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const city = document.getElementById('city').value;
-    const age = document.getElementById('age').value;
+function showGoalSelection() {
+    document.getElementById('auth').style.display = 'none';
+    document.getElementById('goalSelection').style.display = 'block';
+}
 
-    // Сохранение в интерфейсе
-    document.getElementById('userName').textContent = name;
-    document.getElementById('userCity').textContent = city;
-    document.getElementById('userAge').textContent = age;
+function selectGoal(goal) {
+    // Отправка выбранной цели на сервер
+    fetch('/select_goal', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: localStorage.getItem('userId'), goal }),
+    })
+    .then(() => {
+        showMainScreen();
+    });
+}
 
-    nextScreen('nextStep', 'mainInterface');
-});
+function showProfile() {
+    // Здесь код для отображения профиля пользователя
+}
+
+function showQueue() {
+    // Здесь код для отображения очереди
+}
+
+function showPromotions() {
+    // Здесь код для отображения акций
+}
