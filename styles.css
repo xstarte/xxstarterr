@@ -25,3 +25,38 @@ button:disabled {
 }
 
 #
+
+buttonContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+#buttonContainer button {
+    flex: 1;
+    margin: 0 5px;
+}
+
+h1, p {
+    color: #333; /* Цвет текста для улучшения читаемости */
+}
+
+#profileContent, #queueContent, #promoContent {
+    display: none; /* Изначально скрыты */
+}
+
+/* Мобильные стили для темной темы */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212; /* Темный фон */
+        color: #ffffff; /* Светлый текст */
+    }
+    button {
+        background-color: black;
+        color: white;
+    }
+}
