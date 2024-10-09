@@ -1,7 +1,7 @@
 // Функция для переключения между экранами
 function nextScreen(current, next) {
-    document.getElementById(current).style.display = 'none';
-    document.getElementById(next).style.display = 'block';
+    document.getElementById(current).classList.remove('active');
+    document.getElementById(next).classList.add('active');
 }
 
 // Функция при нажатии кнопки "Принять"
