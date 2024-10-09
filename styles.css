@@ -1,4 +1,4 @@
-/* Базовые стили для всех устройств */
+/* Базовые стили */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -6,21 +6,32 @@ body {
     text-align: center;
 }
 
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+p {
+    font-size: 18px;
+    color: #666;
+}
+
 button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 18px;
     margin: 10px;
     cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
-input {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    width: 100%;
-    max-width: 300px;
+button:hover {
+    background-color: #0056b3;
 }
 
+/* Скрытые экраны */
 .screen {
     display: none;
 }
@@ -29,57 +40,18 @@ input {
     display: block;
 }
 
-/* Адаптивные стили для маленьких экранов (мобильные устройства) */
+/* Адаптивные стили */
 @media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    button {
-        padding: 12px 15px;
-        font-size: 18px;
-        width: 100%;
-        max-width: 300px;
-    }
-
-    input {
-        font-size: 18px;
-        padding: 12px;
-        width: 100%;
-    }
-
-    p {
-        font-size: 16px;
-    }
-
-    /* Центрирование и масштабирование экрана для мобильных */
-    .screen {
-        padding: 10px;
-        margin: 0 auto;
-        max-width: 400px;
-    }
-}
-
-/* Адаптивные стили для очень маленьких экранов */
-@media (max-width: 400px) {
     h1 {
         font-size: 20px;
     }
 
+    p {
+        font-size: 16px;
+    }
+
     button {
         font-size: 16px;
-        padding: 10px;
-    }
-
-    input {
-        font-size: 16px;
-    }
-
-    p {
-        font-size: 14px;
+        padding: 12px 15px;
     }
 }
