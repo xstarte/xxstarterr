@@ -1,91 +1,101 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Приложение xStart</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <!-- Приветственный экран 1 -->
-    <div id="intro1" class="screen active">
+    <div id="intro1" class="screen">
         <h1>Привет :) Давай знакомиться!</h1>
-        <p>Сейчас я расскажу кратко о проекте xStart.
-        XStart создан для того, чтобы у тебя появилась возможность стать обладателем 
-        желанной вещи всего за небольшую часть ее стоимости.
-        Жми кнопку "Далее" и расскажу еще о нас :)</p>
-        <button onclick="nextScreen('intro1', 'intro2')">Далее</button>
+        <p>Сейчас я расскажу кратко о проекте xStart. Xstart создан для того, чтобы у тебя появилась возможность стать обладателем желанной вещи всего за небольшую часть ее стоимости. Жми кнопку "Далее", и расскажу еще о нас :)</p>
+        <button class="black-button" onclick="nextScreen('intro1', 'intro2')">Далее</button>
     </div>
 
     <!-- Приветственный экран 2 -->
-    <div id="intro2" class="screen">
+    <div id="intro2" class="screen" style="display:none;">
         <h1>Как это работает?</h1>
-        <p>Механизм действия схож с классической финансовой пирамидой... а именно: 
-        XStart приобретает тебе то, что ты хочешь, за счет средств, накопленных при помощи других участников проекта.
-        НО есть существенная разница между XStart и обычной пирамидой:
-        - Нет обещания завышенных процентов — ты получишь именно то, что тебе нужно.
-        - Нет рисков разрушения проекта, т.к. участники лишены возможности выхода с возвратом взноса.
-
-        Пока что все нравится? Жми "Далее"!</p>
-        <button onclick="nextScreen('intro2', 'intro3')">Далее</button>
+        <p>Механизм действия схож с классической финансовой пирамидой... но с важными отличиями.</p>
+        <button class="black-button" onclick="nextScreen('intro2', 'intro3')">Далее</button>
     </div>
 
     <!-- Приветственный экран 3 -->
-    <div id="intro3" class="screen">
+    <div id="intro3" class="screen" style="display:none;">
         <h1>Как стать участником проекта?</h1>
-        <p>1. Выбери подходящую категорию для участия;<br>
-        2. Произведи оплату за участие в XStart;<br>
-        3. Ты получишь номер участника в очереди и станешь ждать своей очереди.<br><br>
-
-        А снизу есть скучный файлик полных условий и рисков. Как прочитаешь — выбор за тобой :)</p>
-        <button onclick="accept()">Принять</button>
-        <button onclick="decline()">Отклонить</button>
-    </div>
-
-    <!-- Экран ввода данных пользователя -->
-    <div id="user-info" class="screen" style="display:none;">
-        <h1>Введите свои данные</h1>
-        <form id="userForm">
-            <label for="name">Имя:</label>
-            <input type="text" id="name" name="name" required><br><br>
-            <label for="city">Город:</label>
-            <input type="text" id="city" name="city" required><br><br>
-            <label for="age">Возраст:</label>
-            <input type="number" id="age" name="age" required><br><br>
-            <button type="submit" id="submitBtn">Продолжить</button>
-        </form>
+        <p>1. Выбери подходящую ценовую категорию;<br>
+           2. Произведи оплату за участие в XStart;<br>
+           3. Получи номер участника и ожидай своей очереди.
+        </p>
+        <button class="black-button" onclick="accept()">Принять</button>
+        <button class="black-button" onclick="decline()">Отклонить</button>
     </div>
 
     <!-- Экран выбора цели -->
-    <div id="goal-selection" class="screen" style="display:none;">
-        <h1>Выберите вашу цель</h1>
-        <button onclick="selectGoal('iPhone 15')">iPhone 15</button>
-        <button onclick="selectGoal('iPhone 16')">iPhone 16</button>
-        <button onclick="selectGoal('MacBook')">MacBook</button>
-        <button onclick="selectGoal('Samsung Galaxy')">Samsung Galaxy</button>
+    <div id="goalSelection" class="screen" style="display:none;">
+        <h1>Выбери цель</h1>
+        <div class="goal-section">
+            <h2>Цель до 100 000 рублей</h2>
+            <button class="goal-button" onclick="chooseGoal('iPhone 15 Pro')">iPhone 15 Pro</button>
+            <button class="goal-button" onclick="chooseGoal('iPhone 14 Pro Max')">iPhone 14 Pro Max</button>
+            <button class="goal-button" onclick="chooseGoal('Samsung S23+')">Samsung S23+</button>
+            <button class="goal-button" onclick="chooseGoal('Samsung S24')">Samsung S24</button>
+        </div>
+        <div class="goal-section">
+            <h2>Цель до 200 000 рублей</h2>
+            <button class="goal-button" onclick="chooseGoal('iPhone 15 Pro Max')">iPhone 15 Pro Max</button>
+            <button class="goal-button" onclick="chooseGoal('iPhone 16 Pro')">iPhone 16 Pro</button>
+            <button class="goal-button" onclick="chooseGoal('Samsung S24 Ultra')">Samsung S24 Ultra</button>
+            <button class="goal-button" onclick="chooseGoal('Samsung Z Fold 6')">Samsung Z Fold 6</button>
+        </div>
     </div>
 
-    <!-- Экран подцелей для iPhone 15 -->
-    <div id="iphone15-selection" class="screen" style="display:none;">
-        <h1>Выберите модель iPhone 15</h1>
-        <button onclick="selectGoal('iPhone 15')">iPhone 15</button>
-        <button onclick="selectGoal('iPhone 15 Pro')">iPhone 15 Pro</button>
-        <button onclick="selectGoal('iPhone 15 Pro Max')">iPhone 15 Pro Max</button>
-    </div>
-
-    <!-- Экран депозита -->
-    <div id="deposit-screen" class="screen" style="display:none;">
-        <h1>Внесите депозит 10 000 рублей</h1>
-        <button onclick="confirmDeposit()">Готово</button>
+    <!-- Экран авторизации -->
+    <div id="nextStep" class="screen" style="display:none;">
+        <h1>Авторизация</h1>
+        <p>Заполните поля:</p>
+        <form id="authForm">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="city">Город:</label>
+            <input type="text" id="city" name="city" required>
+            <br>
+            <label for="age">Возраст:</label>
+            <input type="number" id="age" name="age" required>
+            <br>
+            <button type="submit" id="continueButton" class="disabled-button" disabled>Продолжить</button>
+        </form>
     </div>
 
     <!-- Основной интерфейс -->
-    <div id="main-interface" class="screen" style="display:none;">
-        <h1>Основной интерфейс</h1>
-        <div id="profile"></div>
-        <div id="queue"></div>
-        <div id="promotions">Текущие акции: <!-- Вставьте текст акций сюда --></div>
+    <div id="mainInterface" class="screen" style="display:none;">
+        <div id="profile" class="content" style="display:block;">
+            <h1>Профиль</h1>
+            <p>Имя: <span id="userName"></span></p>
+            <p>Город: <span id="userCity"></span></p>
+            <p>Возраст: <span id="userAge"></span></p>
+        </div>
+
+        <div id="queue" class="content" style="display:none;">
+            <h1>Очередь</h1>
+            <p>Номер группы: <span id="groupNumber"></span></p>
+            <p>Ваш номер в очереди: <span id="queuePosition"></span></p>
+        </div>
+
+        <div id="promotions" class="content" style="display:none;">
+            <h1>Акции</h1>
+            <p>Текущие акции и предложения.</p>
+        </div>
+
+        <!-- Нижнее меню -->
+        <div class="bottom-menu">
+            <button class="menu-button" onclick="showScreen('profile')">Профиль</button>
+            <button class="menu-button" onclick="showScreen('queue')">Очередь</button>
+            <button class="menu-button" onclick="showScreen('promotions')">Акции</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
