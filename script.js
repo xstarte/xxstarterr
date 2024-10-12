@@ -63,7 +63,7 @@ function submitAuth() {
     .then(response => response.json())
     .then(data => {
         if (data.error) {
-            alert(data.error);  // Показываем сообщение об ошибке
+            alert(`Произошла ошибка: ${data.error}`);
         } else {
             localStorage.setItem('userId', data.userId);
             localStorage.setItem('groupId', data.groupId);
@@ -91,10 +91,6 @@ function selectGoal(goal) {
     })
     .then(() => {
         showMainScreen();
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-        alert('Произошла ошибка при выборе цели. Попробуйте снова.');
     });
 }
 
