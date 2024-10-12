@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Проверка, есть ли пользователь в localStorage
     if (localStorage.getItem('userId')) {
         showMainScreen();
     } else {
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const cityInput = document.getElementById('city');
     const ageInput = document.getElementById('age');
 
-    // Включаем кнопку "Продолжить", когда все поля заполнены
     nameInput.addEventListener('input', checkInputs);
     cityInput.addEventListener('input', checkInputs);
     ageInput.addEventListener('input', checkInputs);
@@ -34,7 +32,7 @@ function showIntro1() {
 function showMainScreen() {
     document.getElementById('mainScreen').style.display = 'block';
     document.getElementById('goalSelection').style.display = 'none';
-    displayUserInfo(); // Отображаем информацию о пользователе
+    displayUserInfo();
 }
 
 function nextScreen(currentId, nextId) {
@@ -55,7 +53,6 @@ function submitAuth() {
     const city = document.getElementById('city').value;
     const age = document.getElementById('age').value;
 
-    // Отправка данных на сервер
     fetch('/register', {
         method: 'POST',
         headers: {
@@ -65,9 +62,17 @@ function submitAuth() {
     })
     .then(response => response.json())
     .then(data => {
-        localStorage.setItem('userId', data.userId); // Сохранение ID пользователя
-        localStorage.setItem('groupId', data.groupId); // Сохранение group ID
-        showGoalSelection();
+        if (data.error) {
+            alert(data.error);  // Показываем сообщение об ошибке
+        } else {
+            localStorage.setItem('userId', data.userId);
+            localStorage.setItem('groupId', data.groupId);
+            showGoalSelection();
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте снова.');
     });
 }
 
@@ -77,7 +82,6 @@ function showGoalSelection() {
 }
 
 function selectGoal(goal) {
-    // Отправка выбранной цели на сервер
     fetch('/select_goal', {
         method: 'POST',
         headers: {
@@ -87,6 +91,10 @@ function selectGoal(goal) {
     })
     .then(() => {
         showMainScreen();
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при выборе цели. Попробуйте снова.');
     });
 }
 
@@ -97,5 +105,4 @@ function displayUserInfo() {
         <h2>Очередь пользователя ${userId} в группе ${groupId}</h2>
         <p>Здесь будет информация о вашей очереди...</p>
     `;
-    // Вы можете также добавить информацию о пользователе, например, имя, город и возраст
 }
